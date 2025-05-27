@@ -1,4 +1,4 @@
-import { Instagram, Facebook, Pointer as Pinterest, Twitter, ArrowUp } from 'lucide-react';
+import { Instagram, ArrowUp } from 'lucide-react';
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -20,24 +20,28 @@ const Footer = () => {
       <div className="container mx-auto px-4 md:px-6 pt-24 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div>
-            <h3 className="text-2xl font-serif font-medium mb-6">
-              <span className="text-accent-500">Room</span> Editors
-            </h3>
+            <div className="flex items-center space-x-2 mb-6">
+              <img 
+                src="/images/464880993_472018949182080_6758788125714834740_n (2).jpg" 
+                alt="Room Editors Logo" 
+                className="h-10 w-10 rounded-full object-cover"
+              />
+              <h3 className="text-2xl font-serif font-medium">
+                <span className="text-accent-500">Room</span> Editors
+              </h3>
+            </div>
             <p className="text-primary-300 mb-6">
               Transform your space with our expert room editing services. Create the perfect atmosphere for every room in your home or office.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="p-2 bg-primary-800 rounded-full hover:bg-accent-600 transition-colors" aria-label="Instagram">
+              <a 
+                href="https://www.instagram.com/room.editors/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-2 bg-primary-800 rounded-full hover:bg-accent-600 transition-colors" 
+                aria-label="Instagram"
+              >
                 <Instagram size={20} />
-              </a>
-              <a href="#" className="p-2 bg-primary-800 rounded-full hover:bg-accent-600 transition-colors" aria-label="Facebook">
-                <Facebook size={20} />
-              </a>
-              <a href="#" className="p-2 bg-primary-800 rounded-full hover:bg-accent-600 transition-colors" aria-label="Pinterest">
-                <Pinterest size={20} />
-              </a>
-              <a href="#" className="p-2 bg-primary-800 rounded-full hover:bg-accent-600 transition-colors" aria-label="Twitter">
-                <Twitter size={20} />
               </a>
             </div>
           </div>
@@ -90,7 +94,7 @@ const Footer = () => {
         
         <div className="border-t border-primary-800 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-primary-400 text-sm text-center md:text-left">
-            &copy; 2025 Room Editors. All rights reserved.
+            &copy; 2025 Room Editors. Designed by Tricone Digital Services. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="text-primary-400 text-sm hover:text-accent-500 transition-colors">Privacy Policy</a>

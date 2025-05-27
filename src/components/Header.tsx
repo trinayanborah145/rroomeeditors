@@ -82,7 +82,7 @@ const Header = () => {
     { 
       name: 'Portfolio', 
       href: '#portfolio',
-      dropdown: projects.slice(0, 6).map(project => ({
+      dropdown: projects.slice(0, 6).map((project) => ({
         name: project.title,
         href: `#portfolio`,
         onClick: () => {
@@ -107,8 +107,15 @@ const Header = () => {
       }}
     >
       <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
-        <a href="#hero" className="text-2xl font-serif font-medium">
-          <span className="text-accent-500">Room</span> Editors
+        <a href="#hero" className="flex items-center space-x-2">
+          <img 
+            src="/images/464880993_472018949182080_6758788125714834740_n (2).jpg" 
+            alt="Room Editors Logo" 
+            className="h-10 w-10 rounded-full object-cover"
+          />
+          <span className="text-2xl font-serif font-medium">
+            <span className="text-accent-500">Room</span> Editors
+          </span>
         </a>
         
         <nav className="hidden md:block">

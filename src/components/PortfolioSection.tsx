@@ -1,22 +1,33 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from '../data/projects';
 import { Play, X } from 'lucide-react';
 
 const PortfolioSection = () => {
   const [activeCategory, setActiveCategory] = useState('All');
-  const [selectedProject, setSelectedProject] = useState<number | null>(null);
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   
-  const categories = ['All', ...new Set(projects.map(project => project.category))];
+  const categories = useMemo(() => 
+    ['All', ...new Set(projects.map(project => project.category))],
+    [projects]
+  );
   
-  const filteredProjects = activeCategory === 'All' 
-    ? projects 
-    : projects.filter(project => project.category === activeCategory);
+  const filteredProjects = useMemo(() => 
+    activeCategory === 'All' 
+      ? projects 
+      : projects.filter((project) => project.category === activeCategory),
+    [activeCategory, projects]
+  );
+  
+  const selectedProject = useMemo(
+    () => projects.find(p => p.id === selectedProjectId) || null,
+    [selectedProjectId]
+  );
     
   const openProject = (id: number) => {
-    setSelectedProject(id);
+    setSelectedProjectId(id);
     document.body.style.overflow = 'hidden';
   };
   
@@ -25,7 +36,7 @@ const PortfolioSection = () => {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
     }
-    setSelectedProject(null);
+    setSelectedProjectId(null);
     setIsPlaying(false);
     document.body.style.overflow = 'auto';
   };
@@ -81,12 +92,12 @@ const PortfolioSection = () => {
             >
               <div className="aspect-[4/3] overflow-hidden">
                 <img 
-                  src={project.imageUrl} 
+                  src={project.image} 
                   alt={project.title} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-primary-950/90 via-primary-950/40 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-100"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-primary-950/70 via-primary-950/20 to-transparent opacity-50 transition-opacity duration-300 group-hover:opacity-70"></div>
               <div className="absolute bottom-0 left-0 p-6 w-full">
                 <h3 className="text-xl font-serif mb-2 transform transition-transform duration-300 group-hover:translate-y-0">{project.title}</h3>
                 <p className="text-primary-300 text-sm opacity-0 transform translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">{project.category}</p>
@@ -104,75 +115,79 @@ const PortfolioSection = () => {
       </div>
       
       <AnimatePresence>
-        {selectedProject !== null && (
-          <motion.div
+        {selectedProject && (
+          <motion.div 
+            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-primary-950/90 backdrop-blur-md"
+            onClick={closeProject}
           >
-            <div className="w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-primary-900 rounded-lg glass-card">
-              {projects.filter(p => p.id === selectedProject).map(project => (
-                <div key={project.id} className="relative">
-                  <button 
-                    className="absolute top-4 right-4 p-2 rounded-full bg-primary-800 hover:bg-primary-700 transition-colors z-10"
-                    onClick={closeProject}
-                    aria-label="Close"
-                  >
-                    <X className="w-6 h-6" />
-                  </button>
-                  
-                  <div className="p-6">
-                    <h2 className="text-2xl md:text-3xl font-serif mb-2">{project.title}</h2>
-                    <p className="text-primary-300 mb-6">{project.category}</p>
-                    
-                    {!isPlaying ? (
-                      <div className="relative cursor-pointer group" onClick={() => setIsPlaying(true)}>
-                        <img 
-                          src={project.imageUrl} 
-                          alt={project.title}
-                          className="w-full rounded-lg"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center bg-primary-950/50 group-hover:bg-primary-950/30 transition-colors">
-                          <div className="p-6 bg-accent-600 rounded-full transform group-hover:scale-110 transition-transform">
-                            <Play className="w-12 h-12" />
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="relative w-full">
-                        <video
-                          ref={videoRef}
-                          src={project.videoUrl}
-                          autoPlay
-                          controls
-                          playsInline
-                          className="w-full max-h-[70vh] object-contain rounded-lg"
-                          onEnded={() => setIsPlaying(false)}
-                          onPlay={() => setIsPlaying(true)}
-                          onPause={() => setIsPlaying(false)}
+            <div 
+              className="relative w-full max-w-4xl max-h-[90vh] bg-primary-900 rounded-lg overflow-hidden"
+              onClick={e => e.stopPropagation()}
+            >
+              <button 
+                className="absolute top-4 right-4 z-10 text-white hover:text-primary-400 transition-colors"
+                onClick={closeProject}
+              >
+                <X size={24} />
+              </button>
+              
+              <div className="relative bg-black flex justify-center p-4">
+                {selectedProject.videoUrl ? (
+                  <div className="relative w-full max-w-4xl">
+                    <div className="relative pt-[56.25%] w-full">
+                      <video
+                        ref={videoRef}
+                        src={selectedProject.videoUrl}
+                        className="absolute inset-0 w-full h-full object-contain"
+                        controls
+                        autoPlay
+                        onPlay={() => setIsPlaying(true)}
+                        onPause={() => setIsPlaying(false)}
+                        onEnded={() => setIsPlaying(false)}
+                      />
+                      {!isPlaying && (
+                        <button 
+                          className="absolute inset-0 flex items-center justify-center group"
+                          onClick={() => videoRef.current?.play()}
                         >
-                          Your browser does not support the video tag.
-                        </video>
-                      </div>
-                    )}
-                    
-                    <p className="text-primary-200 my-8">{project.description}</p>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {project.detailImages.map((img, index) => (
-                        <div key={index} className="rounded-lg overflow-hidden">
-                          <img 
-                            src={img} 
-                            alt={`${project.title} detail ${index + 1}`} 
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      ))}
+                          <div className="w-16 h-16 md:w-20 md:h-20 bg-primary-500/80 rounded-full flex items-center justify-center group-hover:bg-primary-400/90 transition-colors">
+                            <Play className="w-8 h-8 text-white ml-1" />
+                          </div>
+                        </button>
+                      )}
                     </div>
                   </div>
+                ) : (
+                  <div className="flex items-center justify-center w-full h-64 bg-primary-800">
+                    <p className="text-white/70">No video available</p>
+                  </div>
+                )}
+              </div>
+              
+              <div className="p-6">
+                <h3 className="text-2xl font-bold text-white mb-2">
+                  {selectedProject.title}
+                </h3>
+                <p className="text-primary-300 mb-4">
+                  {selectedProject.category}
+                </p>
+                <p className="text-white/80 mb-4">
+                  {selectedProject.description}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {selectedProject.technologies.map((tech, index) => (
+                    <span 
+                      key={index} 
+                      className="px-3 py-1 bg-primary-800 text-primary-200 rounded-full text-sm"
+                    >
+                      {tech}
+                    </span>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </motion.div>
         )}
