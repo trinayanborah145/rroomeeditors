@@ -22,7 +22,22 @@ const ContactSection = () => {
     e.preventDefault();
     setFormStatus('submitting');
     
-    // Simulate form submission
+    // Format the message for WhatsApp
+    const whatsappMessage = `I've come from your website and I would like to inquire about your services.
+
+*Name:* ${formData.name}
+*Email:* ${formData.email}
+*Phone:* ${formData.phone}
+*Service Interested In:* ${formData.service}
+*Message:* ${formData.message}`;
+
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    
+    // Open WhatsApp with the pre-filled message
+    window.open(`https://wa.me/916901598958?text=${encodedMessage}`, '_blank');
+    
+    // Reset form after a short delay
     setTimeout(() => {
       setFormStatus('success');
       setFormData({
@@ -35,7 +50,7 @@ const ContactSection = () => {
       
       // Reset status after 3 seconds
       setTimeout(() => setFormStatus('idle'), 3000);
-    }, 1500);
+    }, 500);
   };
   
   return (

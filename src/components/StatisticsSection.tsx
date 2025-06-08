@@ -4,10 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 
 interface AnimatedCounterProps {
   value: string;
-  suffix?: string;
 }
 
-const AnimatedCounter = ({ value, suffix = '' }: AnimatedCounterProps) => {
+const AnimatedCounter = ({ value }: AnimatedCounterProps) => {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true });
