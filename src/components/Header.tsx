@@ -182,11 +182,14 @@ const Header = () => {
           </ul>
         </nav>
         
-        <button 
+        <a 
+          href="https://wa.me/916901598958?text=I've%20came%20from%20your%20website%20and%20I%20want%20to%20get%20a%20quote" 
+          target="_blank" 
+          rel="noopener noreferrer"
           className="btn-outline hidden md:block"
         >
           Get a Quote
-        </button>
+        </a>
         
         <button 
           className="md:hidden text-white"
@@ -259,12 +262,15 @@ const Header = () => {
                 </li>
               ))}
               <li>
-                <button 
-                  className="btn-primary mt-6 w-full"
+                <a 
+                  href="https://wa.me/916901598958?text=I've%20came%20from%20your%20website%20and%20I%20want%20to%20get%20a%20quote" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="btn-primary mt-6 w-full block text-center"
                   onClick={() => setIsOpen(false)}
                 >
                   Get a Quote
-                </button>
+                </a>
               </li>
             </ul>
           </div>

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import ServicesSection from './components/ServicesSection';
@@ -8,8 +8,11 @@ import AboutSection from './components/AboutSection';
 import TestimonialsSection from './components/TestimonialsSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
+import Loading from './components/Loading';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     // Set the page title
     document.title = 'Room Editors | Premium Interior Design Studio';
@@ -19,22 +22,32 @@ function App() {
     if (titleElement?.hasAttribute('data-default')) {
       titleElement.removeAttribute('data-default');
     }
+
+    // Hide loading screen after 2 seconds
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, []);
   
   return (
-    <div className="min-h-screen bg-primary-950 text-white">
-      <Header />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <ServicesSection />
-        <StatisticsSection />
-        <PortfolioSection />
-        <TestimonialsSection />
-        <ContactSection />
-      </main>
-      <Footer />
-    </div>
+    <>
+      {isLoading && <Loading />}
+      <div className={`min-h-screen bg-primary-950 text-white transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+        <Header />
+        <main>
+          <HeroSection />
+          <AboutSection />
+          <ServicesSection />
+          <StatisticsSection />
+          <PortfolioSection />
+          <TestimonialsSection />
+          <ContactSection />
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }
 

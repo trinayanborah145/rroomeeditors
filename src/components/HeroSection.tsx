@@ -44,8 +44,13 @@ const HeroSection = () => {
             <a href="#portfolio" className="btn-primary">
               Explore Our Work
             </a>
-            <a href="#contact" className="btn-outline">
-              Get in Touch
+            <a 
+              href="https://wa.me/916901598958?text=I've%20came%20from%20your%20website%20and%20I%20want%20to%20get%20a%20quote" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="btn-outline"
+            >
+              Get a Quote
             </a>
           </motion.div>
         </div>
