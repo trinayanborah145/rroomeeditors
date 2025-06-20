@@ -14,9 +14,10 @@ const AboutSection = () => {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative"
+              viewport={{ once: true, margin: '-50px 0px' }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="relative animate-transform"
+              style={{ willChange: 'transform, opacity', backfaceVisibility: 'hidden' }}
             >
               <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
                 <img 
@@ -36,9 +37,10 @@ const AboutSection = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative z-10"
+              viewport={{ once: true, margin: '-50px 0px' }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="relative z-10 animate-transform"
+              style={{ willChange: 'transform, opacity', backfaceVisibility: 'hidden' }}
             >
               <h2 className="text-4xl md:text-5xl font-serif font-medium mb-6">
                 Crafting Beautiful Spaces in <span className="text-accent-500">Assam</span>

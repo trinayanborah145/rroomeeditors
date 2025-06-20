@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from '../data/projects';
 import { Play, X } from 'lucide-react';
@@ -7,7 +7,18 @@ const PortfolioSection = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  
+  // Check if device is mobile
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+    };
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
   
   const categories = useMemo(() => 
     ['All', ...new Set(projects.map(project => project.category))],
@@ -144,9 +155,16 @@ const PortfolioSection = () => {
                         className="absolute inset-0 w-full h-full object-contain"
                         controls
                         autoPlay
+                        playsInline
+                        muted={isMobile} // Mute on mobile by default due to autoplay restrictions
                         onPlay={() => setIsPlaying(true)}
                         onPause={() => setIsPlaying(false)}
                         onEnded={() => setIsPlaying(false)}
+                        onError={(e) => {
+                          console.error('Video playback error:', e);
+                          const target = e.target as HTMLVideoElement;
+                          console.error('Video error details:', target.error);
+                        }}
                       />
                       {!isPlaying && (
                         <button 

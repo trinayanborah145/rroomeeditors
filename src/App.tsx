@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import ServicesSection from './components/ServicesSection';
@@ -9,6 +10,8 @@ import TestimonialsSection from './components/TestimonialsSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 import Loading from './components/Loading';
+import ServicesList from './pages/services/ServicesList';
+import ServiceTemplate from './pages/services/ServiceTemplate';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -31,23 +34,43 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
   
+  const HomePage = () => (
+    <div className={`min-h-screen bg-primary-950 text-white transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+      <Header />
+      <main>
+        <HeroSection />
+        <AboutSection />
+        <ServicesSection />
+        <StatisticsSection />
+        <PortfolioSection />
+        <TestimonialsSection />
+        <ContactSection />
+      </main>
+      <Footer />
+    </div>
+  );
+
   return (
-    <>
+    <Router>
       {isLoading && <Loading />}
-      <div className={`min-h-screen bg-primary-950 text-white transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
-        <Header />
-        <main>
-          <HeroSection />
-          <AboutSection />
-          <ServicesSection />
-          <StatisticsSection />
-          <PortfolioSection />
-          <TestimonialsSection />
-          <ContactSection />
-        </main>
-        <Footer />
-      </div>
-    </>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/services" element={
+          <div className={`min-h-screen bg-primary-950 text-white transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+            <Header />
+            <ServicesList />
+            <Footer />
+          </div>
+        } />
+        <Route path="/services/:serviceId" element={
+          <div className={`min-h-screen bg-primary-950 text-white transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+            <Header />
+            <ServiceTemplate />
+            <Footer />
+          </div>
+        } />
+      </Routes>
+    </Router>
   );
 }
 
