@@ -76,9 +76,18 @@ const HeroSection = () => {
         transformStyle: 'preserve-3d',
       }}
     >
-      {/* Background with overlay */}
+      {/* Background with image and overlay */}
       <div className="absolute inset-0 z-0">
         <HeroCanvas />
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(/images/Flux_Dev_A_luxurious_and_modern_interior_design_scene_showing__2.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-primary-950/70 to-primary-950/50 z-10"></div>
       </div>
       
