@@ -185,7 +185,8 @@ const Header = () => {
                               element.scrollIntoView({ behavior: 'smooth' });
                             }
                           } else {
-                            window.location.href = `/${link.href}`;
+                            // Use React Router to navigate to homepage with hash
+                            window.location.assign(`/${link.href}`);
                           }
                           setIsOpen(false);
                         }}
@@ -270,13 +271,23 @@ const Header = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div 
-            className="fixed inset-0 bg-primary-950 z-40 pt-20 overflow-y-auto"
+            className="fixed inset-0 bg-primary-950 z-50 pt-20 overflow-y-auto h-screen"
+            style={{ WebkitOverflowScrolling: 'touch' }}
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="container mx-auto px-4 py-8">
+            <div className="fixed top-4 left-4 z-50">
+              <button 
+                onClick={toggleMenu}
+                className="p-2 rounded-full hover:bg-primary-800 transition-colors"
+                aria-label="Close menu"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            <div className="container mx-auto px-4 py-8 pb-32">
               <nav>
                 <ul className="space-y-6">
                   {navLinks.map((link) => (
@@ -294,7 +305,8 @@ const Header = () => {
                                   element.scrollIntoView({ behavior: 'smooth' });
                                 }
                               } else {
-                                window.location.href = `/${link.href}`;
+                                // Use React Router to navigate to homepage with hash
+                                window.location.assign(`/${link.href}`);
                               }
                               setIsOpen(false);
                             }}

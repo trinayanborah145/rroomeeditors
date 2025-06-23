@@ -1,6 +1,21 @@
 import { Instagram, ArrowUp } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 
 const Footer = () => {
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
+  const scrollToSection = (sectionId: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isHomePage) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      window.location.href = `/#${sectionId}`;
+    }
+  };
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -49,25 +64,24 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-medium mb-6">Services</h4>
             <ul className="space-y-4 text-primary-300">
-              <li><a href="#service-residential-design" className="hover:text-accent-500 transition-colors">Residential Design</a></li>
-              <li><a href="#service-commercial-design" className="hover:text-accent-500 transition-colors">Commercial Design</a></li>
-              <li><a href="#service-3d-visualization" className="hover:text-accent-500 transition-colors">3D Visualization</a></li>
-              <li><a href="#service-custom-furniture" className="hover:text-accent-500 transition-colors">Custom Furniture</a></li>
-              <li><a href="#service-tv-unit-design" className="hover:text-accent-500 transition-colors">TV Unit Design</a></li>
-              <li><a href="#service-semi-modular-kitchen" className="hover:text-accent-500 transition-colors">Semi Modular Kitchen</a></li>
-              <li><a href="#service-full-modular-kitchen" className="hover:text-accent-500 transition-colors">Full Modular Kitchen</a></li>
-              <li><a href="#service-renovation-consultation" className="hover:text-accent-500 transition-colors">Renovation Consultation</a></li>
+              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">Residential Design</Link></li>
+              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">Commercial Design</Link></li>
+              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">3D Visualization</Link></li>
+              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">Custom Furniture</Link></li>
+              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">TV Unit Design</Link></li>
+              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">Semi Modular Kitchen</Link></li>
+              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">Full Modular Kitchen</Link></li>
+              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">Renovation Consultation</Link></li>
             </ul>
           </div>
           
           <div>
             <h4 className="text-lg font-medium mb-6">Company</h4>
             <ul className="space-y-4 text-primary-300">
-              <li><a href="#about" className="hover:text-accent-500 transition-colors">About Us</a></li>
-              <li><a href="#portfolio" className="hover:text-accent-500 transition-colors">Portfolio</a></li>
-              <li><a href="#" className="hover:text-accent-500 transition-colors">Blog</a></li>
-              <li><a href="#" className="hover:text-accent-500 transition-colors">Careers</a></li>
-              <li><a href="#contact" className="hover:text-accent-500 transition-colors">Contact</a></li>
+              <li><Link to={isHomePage ? '#about' : '/#about'} onClick={(e) => scrollToSection('about', e)} className="hover:text-accent-500 transition-colors">About Us</Link></li>
+              <li><Link to={isHomePage ? '#portfolio' : '/#portfolio'} onClick={(e) => scrollToSection('portfolio', e)} className="hover:text-accent-500 transition-colors">Portfolio</Link></li>
+              <li><Link to="#" className="hover:text-accent-500 transition-colors">Careers</Link></li>
+              <li><Link to={isHomePage ? '#contact' : '/#contact'} onClick={(e) => scrollToSection('contact', e)} className="hover:text-accent-500 transition-colors">Contact</Link></li>
             </ul>
           </div>
           

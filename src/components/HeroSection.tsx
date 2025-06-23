@@ -1,6 +1,27 @@
-import { Suspense, useMemo } from 'react';
-import { motion, useReducedMotion, Variants } from 'framer-motion';
-import HeroCanvas from './three/HeroCanvas';
+import { Suspense, useMemo, lazy, useState, useEffect, useRef } from 'react';
+import { motion, useReducedMotion, Variants, useInView } from 'framer-motion';
+
+// Lazy load the 3D canvas component
+const LazyHeroCanvas = lazy(() => import('./three/HeroCanvas'));
+
+const HeroCanvas = () => {
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    // Only load on client-side after mount
+    setIsMounted(true);
+  }, []);
+  
+  if (!isMounted) {
+    return null;
+  }
+  
+  return (
+    <Suspense fallback={null}>
+      <LazyHeroCanvas />
+    </Suspense>
+  );
+};
 
 const HeroSection = () => {
   const prefersReducedMotion = useReducedMotion();
@@ -12,7 +33,9 @@ const HeroSection = () => {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        when: 'beforeChildren'
+        when: 'beforeChildren',
+        duration: 0.6,
+        ease: [0.16, 1, 0.3, 1]
       }
     }
   }), []);
@@ -28,23 +51,34 @@ const HeroSection = () => {
       y: 0,
       transition: {
         duration: 0.6,
-        ease: [0.16, 1, 0.3, 1]
+        // Use tween for better performance on mobile
+        type: 'tween',
+        ease: 'easeOut'
       },
       willChange: 'auto'
     }
   }), [prefersReducedMotion]);
+  
+  // Only animate if in viewport
+  const controlsRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(controlsRef, { once: true });
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden">
+    <section 
+      id="hero" 
+      ref={controlsRef}
+      className="relative min-h-screen flex items-center overflow-hidden"
+      style={{
+        // Force GPU acceleration
+        transform: 'translateZ(0)',
+        backfaceVisibility: 'hidden',
+        perspective: 1000,
+        transformStyle: 'preserve-3d',
+      }}
+    >
       {/* Background with overlay */}
       <div className="absolute inset-0 z-0">
-        <Suspense fallback={
-          <div className="h-full w-full flex items-center justify-center animate-transform">
-            Loading 3D Experience...
-          </div>
-        }>
-          <HeroCanvas />
-        </Suspense>
+        <HeroCanvas />
         <div className="absolute inset-0 bg-gradient-to-b from-primary-950/70 to-primary-950/50 z-10"></div>
       </div>
       
@@ -54,7 +88,7 @@ const HeroSection = () => {
           className="max-w-3xl"
           variants={containerVariants}
           initial="hidden"
-          animate="visible"
+          animate={isInView ? "visible" : "hidden"}
         >
           <motion.h1 
             className="text-5xl md:text-6xl lg:text-7xl font-serif font-semibold leading-tight"

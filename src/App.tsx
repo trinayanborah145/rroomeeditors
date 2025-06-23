@@ -34,21 +34,36 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
   
-  const HomePage = () => (
-    <div className={`min-h-screen bg-primary-950 text-white transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
-      <Header />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <ServicesSection />
-        <StatisticsSection />
-        <PortfolioSection />
-        <TestimonialsSection />
-        <ContactSection />
-      </main>
-      <Footer />
-    </div>
-  );
+  const HomePage = () => {
+    // Scroll to hash section on mount if present
+    useEffect(() => {
+      if (window.location.hash) {
+        const id = window.location.hash.replace('#', '');
+        const el = document.getElementById(id);
+        if (el) {
+          setTimeout(() => {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }, 100); // Wait for DOM to render
+        }
+      }
+    }, []);
+
+    return (
+      <div className={`min-h-screen bg-primary-950 text-white transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+        <Header />
+        <main>
+          <HeroSection />
+          <AboutSection />
+          <ServicesSection />
+          <StatisticsSection />
+          <PortfolioSection />
+          <TestimonialsSection />
+          <ContactSection />
+        </main>
+        <Footer />
+      </div>
+    );
+  };
 
   return (
     <Router>

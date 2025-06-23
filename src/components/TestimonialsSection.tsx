@@ -4,11 +4,11 @@ import { Quote, Star } from 'lucide-react';
 const testimonials = [
   {
     id: 1,
-    name: 'Rahul Sharma',
+    name: 'Subhrangshu Sarma',
     role: 'Homeowner, Guwahati',
     content: 'Room Editors transformed our apartment into a dream home. Their attention to detail and creative solutions were beyond our expectations.',
     rating: 5,
-    image: 'https://randomuser.me/api/portraits/men/32.jpg'
+    image: '/images/unnamed.png'
   },
   {
     id: 2,
@@ -16,7 +16,7 @@ const testimonials = [
     role: 'Business Owner, Nagaon',
     content: 'The team delivered exceptional results for our office renovation. Professional, punctual, and highly skilled in space optimization.',
     rating: 5,
-    image: 'https://randomuser.me/api/portraits/women/44.jpg'
+    useInitial: true
   },
   {
     id: 3,
@@ -70,13 +70,19 @@ const TestimonialsSection = () => {
               <Quote className="absolute top-8 right-8 w-12 h-12 text-accent-500/20" />
               
               <div className="flex items-center mb-6">
-                <div className="w-16 h-16 rounded-full overflow-hidden mr-4">
-                  <img 
-                    src={testimonial.image} 
-                    alt={testimonial.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+                {testimonial.useInitial ? (
+                  <div className="w-16 h-16 rounded-full bg-accent-500/10 flex items-center justify-center text-accent-500 text-2xl font-bold mr-4">
+                    {testimonial.name.charAt(0)}
+                  </div>
+                ) : (
+                  <div className="w-16 h-16 rounded-full overflow-hidden mr-4">
+                    <img 
+                      src={testimonial.image} 
+                      alt={testimonial.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
                 <div>
                   <h4 className="text-lg font-medium">{testimonial.name}</h4>
                   <p className="text-sm text-primary-300">{testimonial.role}</p>

@@ -60,15 +60,20 @@ const ServiceTemplate = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
-              href="#contact" 
+              href="https://wa.me/916901598958?text=I've%20came%20from%20your%20website%20and%20I%20want%20a%20free%20quote" 
               className="btn-primary inline-flex items-center justify-center"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Get a Free Quote
             </a>
-            <Button variant="outline" className="gap-2">
+            <a
+              href="tel:916901598958"
+              className="inline-flex items-center gap-2 btn-outline px-4 py-2 rounded-md border border-input text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
               <Phone className="w-4 h-4" />
               Call Us
-            </Button>
+            </a>
           </div>
         </motion.div>
       </section>
@@ -158,17 +163,17 @@ const ServiceTemplate = () => {
           <div className="grid md:grid-cols-2 gap-12">
             <div>
               <h3 className="text-xl font-medium mb-4">Our Approach</h3>
-              <p className="mb-6 text-primary-200">
-                {service.whyChooseUs}
-              </p>
-              {service.testimonial && (
-                <blockquote className="border-l-4 border-accent-500 pl-4 italic text-primary-200">
-                  "{service.testimonial.quote}"
-                  <footer className="mt-2 text-right font-medium not-italic">
-                    — {service.testimonial.author}
-                  </footer>
-                </blockquote>
-              )}
+<div className="mb-6 text-primary-200 space-y-4">
+  <p>Room Editors is a professional interior design company based in Assam, founded in 2022 by Dimpu Baruah (popularly known as Dimpu Da) and Kingkar Choudhury and their talented team. Our vision is to turn your interior dreams into reality, combining innovative design with practical functionality.</p>
+  <p>With a passion for creating beautiful and functional spaces, we take pride in our attention to detail and commitment to excellence in every project we undertake.</p>
+  <blockquote className="border-l-4 border-accent-500 pl-4 italic text-primary-200 bg-primary-950/40 py-3">
+    "Our mission is to bring your dream spaces to life with innovative designs and impeccable execution. Every project is a new opportunity to create something extraordinary."
+    <footer className="mt-2 text-right font-medium not-italic">
+      DB<br />Dimpu Baruah & Kingkar Choudhury<br />
+      <span className="text-sm font-normal">Founder & Lead Designer</span>
+    </footer>
+  </blockquote>
+</div>
             </div>
             <div>
               <h3 className="text-xl font-medium mb-4">Frequently Asked Questions</h3>
@@ -176,7 +181,11 @@ const ServiceTemplate = () => {
                 {service.faqs?.map((faq, index) => (
                   <div key={index} className="border-b border-primary-800 pb-4">
                     <h4 className="font-medium text-primary-100">{faq.question}</h4>
-                    <p className="text-primary-300 mt-1">{faq.answer}</p>
+                    <p className="text-primary-300 mt-1">{
+  /\b(\$|₹|rs|rupees|INR)?\s?\d{1,3}(,\d{3})*(\.\d+)?(\s?(to|–|-)\s?(\$|₹|rs|rupees|INR)?\d{1,3}(,\d{3})*(\.\d+)?)*\b/i.test(faq.answer)
+    ? faq.answer.replace(/(\$|₹|rs|rupees|INR)?\s?\d{1,3}(,\d{3})*(\.\d+)?(\s?(to|–|-)\s?(\$|₹|rs|rupees|INR)?\d{1,3}(,\d{3})*(\.\d+)?)*(\s?(per|a)?\s?(sq\.?\s?ft|sq\.?\s?feet|square\s?feet|month|year|project|room|service|space|area)?)/gi, '1500rs to 2500rs per sq feet')
+    : faq.answer
+}</p>
                   </div>
                 )) || (
                   <p className="text-primary-400">
@@ -202,6 +211,15 @@ const ServiceTemplate = () => {
             <a 
               href="#contact" 
               className="btn-primary inline-flex items-center justify-center"
+              onClick={(e) => {
+                e.preventDefault();
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  window.location.href = '/#contact';
+                }
+              }}
             >
               Get Started
             </a>
