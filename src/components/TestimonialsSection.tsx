@@ -121,6 +121,11 @@ const TestimonialsSection = () => {
     let lastTime = 0;
     const frameDuration = 1000 / 60; // 60fps
     
+    // Start from the middle of the duplicated content
+    if (container.scrollLeft === 0) {
+      container.scrollLeft = content.scrollWidth / 2;
+    }
+    
     const animate = (timestamp: number) => {
       if (!container || !content) return;
       
@@ -130,11 +135,11 @@ const TestimonialsSection = () => {
       
       // Only update if enough time has passed (for 60fps)
       if (deltaTime >= frameDuration) {
-        container.scrollLeft += (speed * (deltaTime / 1000)); // speed in pixels per second
+        container.scrollLeft -= (speed * (deltaTime / 1000)); // Move left to right
         
-        // Reset position when reaching the end
-        if (container.scrollLeft >= content.scrollWidth / 2) {
-          container.scrollLeft = 0;
+        // Reset position when reaching the start of the loop
+        if (container.scrollLeft <= 0) {
+          container.scrollLeft = content.scrollWidth / 2 - container.offsetWidth;
         }
       }
       
@@ -152,8 +157,8 @@ const TestimonialsSection = () => {
     };
   }, [speed]); // Re-run effect when speed changes
   
-  // Duplicate testimonials for seamless looping
-  const duplicatedTestimonials = [...testimonials, ...testimonials];
+  // Duplicate testimonials for seamless looping (triple for better looping)
+  const duplicatedTestimonials = [...testimonials, ...testimonials, ...testimonials];
 
   const renderStars = (rating: number) => {
     return Array(5).fill(0).map((_, i) => (
@@ -196,6 +201,11 @@ const TestimonialsSection = () => {
           <div 
             ref={contentRef}
             className="flex gap-6 md:gap-8 w-max"
+            style={{
+              // Add some padding to ensure smooth looping
+              paddingLeft: '100%',
+              paddingRight: '100%'
+            }}
           >
             {duplicatedTestimonials.map((testimonial, index) => (
               <div
