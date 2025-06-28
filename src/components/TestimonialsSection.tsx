@@ -82,62 +82,75 @@ const testimonials = [
 const TestimonialsSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<number>();
   const [isMobile, setIsMobile] = useState(false);
-  const speed = isMobile ? 25 : 40; // Slower speed for mobile
+  const speed = isMobile ? 30 : 45; // Adjusted speeds for better mobile experience
 
-  // Check for mobile view
+  // Check for mobile view and update speed accordingly
   useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    const updateSpeed = () => {
+      const isMobileView = window.innerWidth < 768;
+      setIsMobile(isMobileView);
     };
     
     // Initial check
-    checkIfMobile();
+    updateSpeed();
     
-    // Add event listener for window resize
-    window.addEventListener('resize', checkIfMobile);
+    // Add debounced resize listener
+    let resizeTimer: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(updateSpeed, 100);
+    };
+    
+    window.addEventListener('resize', handleResize);
     
     // Clean up
-    return () => window.removeEventListener('resize', checkIfMobile);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimer);
+    };
   }, []);
 
-  // Set up auto-scrolling animation
+  // Set up auto-scrolling animation with optimized performance
   useEffect(() => {
     if (!containerRef.current || !contentRef.current) return;
 
     const container = containerRef.current;
     const content = contentRef.current;
+    let animationFrameId: number;
+    let lastTime = 0;
+    const frameDuration = 1000 / 60; // 60fps
     
-    // Reset scroll position if at the end
-    const resetScroll = () => {
-      if (container.scrollLeft >= content.scrollWidth / 2) {
-        container.scrollLeft = 0;
-      }
-    };
-
-    const animate = () => {
-
-      container.scrollLeft += (speed / 60); // 60fps
+    const animate = (timestamp: number) => {
+      if (!container || !content) return;
       
-      // Reset position when reaching the end
-      if (container.scrollLeft >= content.scrollWidth / 2) {
-        container.scrollLeft = 0;
+      // Calculate time delta for smooth animation
+      const deltaTime = timestamp - lastTime;
+      lastTime = timestamp;
+      
+      // Only update if enough time has passed (for 60fps)
+      if (deltaTime >= frameDuration) {
+        container.scrollLeft += (speed * (deltaTime / 1000)); // speed in pixels per second
+        
+        // Reset position when reaching the end
+        if (container.scrollLeft >= content.scrollWidth / 2) {
+          container.scrollLeft = 0;
+        }
       }
       
-      animationRef.current = requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
 
     // Start animation
-    animationRef.current = requestAnimationFrame(animate);
+    animationFrameId = requestAnimationFrame(animate);
     
     // Clean up
     return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
       }
     };
-  }, []);
+  }, [speed]); // Re-run effect when speed changes
   
   // Duplicate testimonials for seamless looping
   const duplicatedTestimonials = [...testimonials, ...testimonials];
@@ -172,7 +185,13 @@ const TestimonialsSection = () => {
         
         <div 
           ref={containerRef}
-          className="overflow-x-hidden py-8 relative px-4 md:px-0"
+          className="overflow-x-auto md:overflow-x-hidden py-8 relative px-4 md:px-0 scrollbar-hide touch-pan-x"
+          style={{
+            WebkitOverflowScrolling: 'touch', // Smooth scrolling on iOS
+            scrollbarWidth: 'none', // Hide scrollbar in Firefox
+            msOverflowStyle: 'none', // Hide scrollbar in IE/Edge
+            WebkitTapHighlightColor: 'transparent' // Remove tap highlight on mobile
+          }}
         >
           <div 
             ref={contentRef}
