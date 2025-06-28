@@ -77,6 +77,19 @@ const Header = () => {
       }
     },
     { 
+      name: 'About', 
+      href: isHomePage ? '#about' : '/#about',
+      onClick: () => {
+        if (isHomePage) {
+          const element = document.getElementById('about');
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+        setIsOpen(false);
+      }
+    },
+    { 
       name: 'Services', 
       href: isHomePage ? '#services' : '/services',
       dropdown: services.map(service => ({
@@ -111,19 +124,6 @@ const Header = () => {
       }))
     },
     { 
-      name: 'About', 
-      href: isHomePage ? '#about' : '/#about',
-      onClick: () => {
-        if (isHomePage) {
-          const element = document.getElementById('about');
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }
-        }
-        setIsOpen(false);
-      }
-    },
-    { 
       name: 'Contact', 
       href: isHomePage ? '#contact' : '/#contact',
       onClick: () => {
@@ -140,10 +140,10 @@ const Header = () => {
   
   return (
     <motion.header 
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-md ${isScrolled ? 'py-4' : 'py-6'}`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'py-4' : 'py-6'}`}
       style={{ 
         backgroundColor: headerBackground,
-        opacity: headerOpacity 
+        opacity: 1 
       }}
     >
       <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">

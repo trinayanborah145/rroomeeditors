@@ -113,7 +113,7 @@ const ServicesSection = () => {
             animate={inView ? "visible" : "hidden"}
             className="grid grid-cols-1 sm:grid-cols-2 gap-4"
           >
-            {services.map((service) => {
+            {services.slice(0, 5).map((service) => {
               const IconComponent = getIconComponent(service.icon);
               const serviceId = getServiceId(service.title);
               const active = activeService.id === service.id;
@@ -146,7 +146,17 @@ const ServicesSection = () => {
               );
             })}
           </motion.div>
-          
+
+          {/* See All Services Button */}
+          <div className="flex justify-center mt-4">
+            <Link to="/services">
+              <button className="inline-flex items-center px-6 py-2 rounded-lg bg-accent-500 text-white font-medium shadow hover:bg-accent-600 transition-colors">
+                See All Services
+                <ChevronRight className="ml-2 w-4 h-4" />
+              </button>
+            </Link>
+          </div>
+
           {/* Active service details */}
           <motion.div 
             className="glass-card p-8 rounded-2xl h-full flex flex-col"

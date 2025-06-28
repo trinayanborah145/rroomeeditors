@@ -156,6 +156,7 @@ const PortfolioSection = () => {
                         controls
                         autoPlay
                         playsInline
+                        preload="auto"
                         muted={isMobile} // Mute on mobile by default due to autoplay restrictions
                         onPlay={() => setIsPlaying(true)}
                         onPause={() => setIsPlaying(false)}
@@ -164,6 +165,20 @@ const PortfolioSection = () => {
                           console.error('Video playback error:', e);
                           const target = e.target as HTMLVideoElement;
                           console.error('Video error details:', target.error);
+                          // Try to force play if autoplay was prevented
+                          if (videoRef.current) {
+                            videoRef.current.play().catch(err => {
+                              console.error('Error attempting to play video:', err);
+                            });
+                          }
+                        }}
+                        onCanPlayThrough={() => {
+                          // Ensure video plays when it's ready
+                          if (videoRef.current && !isPlaying) {
+                            videoRef.current.play().catch(err => {
+                              console.error('Autoplay was prevented:', err);
+                            });
+                          }
                         }}
                       />
                       {!isPlaying && (

@@ -64,24 +64,24 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-medium mb-6">Services</h4>
             <ul className="space-y-4 text-primary-300">
-              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">Residential Design</Link></li>
-              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">Commercial Design</Link></li>
-              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">3D Visualization</Link></li>
-              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">Custom Furniture</Link></li>
-              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">TV Unit Design</Link></li>
-              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">Semi Modular Kitchen</Link></li>
-              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">Full Modular Kitchen</Link></li>
-              <li><Link to={isHomePage ? '#services' : '/#services'} className="hover:text-accent-500 transition-colors">Renovation Consultation</Link></li>
+              <li><Link to="/services/residential-design" className="hover:text-accent-500 transition-colors">Residential Design</Link></li>
+              <li><Link to="/services/commercial-design" className="hover:text-accent-500 transition-colors">Commercial Design</Link></li>
+              <li><Link to="/services/3d-visualization" className="hover:text-accent-500 transition-colors">3D Visualization</Link></li>
+              <li><Link to="/services/custom-furniture" className="hover:text-accent-500 transition-colors">Custom Furniture</Link></li>
+              <li><Link to="/services/tv-unit-design" className="hover:text-accent-500 transition-colors">TV Unit Design</Link></li>
+              <li><Link to="/services/semi-modular-kitchen" className="hover:text-accent-500 transition-colors">Semi Modular Kitchen</Link></li>
+              <li><Link to="/services/full-modular-kitchen" className="hover:text-accent-500 transition-colors">Full Modular Kitchen</Link></li>
+              <li><Link to="/services/renovation-consultation" className="hover:text-accent-500 transition-colors">Renovation Consultation</Link></li>
             </ul>
           </div>
           
           <div>
             <h4 className="text-lg font-medium mb-6">Company</h4>
             <ul className="space-y-4 text-primary-300">
-              <li><Link to={isHomePage ? '#about' : '/#about'} onClick={(e) => scrollToSection('about', e)} className="hover:text-accent-500 transition-colors">About Us</Link></li>
-              <li><Link to={isHomePage ? '#portfolio' : '/#portfolio'} onClick={(e) => scrollToSection('portfolio', e)} className="hover:text-accent-500 transition-colors">Portfolio</Link></li>
-              <li><Link to="#" className="hover:text-accent-500 transition-colors">Careers</Link></li>
-              <li><Link to={isHomePage ? '#contact' : '/#contact'} onClick={(e) => scrollToSection('contact', e)} className="hover:text-accent-500 transition-colors">Contact</Link></li>
+              <li><Link to="/#about" onClick={(e) => isHomePage && scrollToSection('about', e)} className="hover:text-accent-500 transition-colors">About Us</Link></li>
+              <li><Link to="/#portfolio" onClick={(e) => isHomePage && scrollToSection('portfolio', e)} className="hover:text-accent-500 transition-colors">Portfolio</Link></li>
+              <li><Link to="/#services" onClick={(e) => isHomePage ? scrollToSection('services', e) : window.location.href = '/#services'} className="hover:text-accent-500 transition-colors">Services</Link></li>
+              <li><Link to="/#contact" onClick={(e) => isHomePage && scrollToSection('contact', e)} className="hover:text-accent-500 transition-colors">Contact</Link></li>
             </ul>
           </div>
           

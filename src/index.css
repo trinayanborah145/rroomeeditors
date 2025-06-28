@@ -52,7 +52,7 @@
   }
   
   .glass-card {
-    @apply backdrop-blur-md bg-primary-900/80 border border-primary-800 shadow-xl;
+    @apply bg-primary-900/80 border border-primary-800 shadow-xl;
   }
   
   .btn-primary {

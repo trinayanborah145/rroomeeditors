@@ -30,7 +30,7 @@ export const services: Service[] = [
     title: 'Residential Design',
     tagline: 'Turning your house into a dream home',
     description: 'Transform your living space into a personalized sanctuary that reflects your lifestyle and aesthetic preferences.',
-    icon: 'Home',
+    icon: 'Wrench',
     overview: 'Our residential design service creates beautiful, functional spaces tailored to your unique needs. We work closely with you to understand your vision, lifestyle, and preferences, then bring that vision to life with thoughtful design solutions that maximize both form and function.',
     deliverables: [
       'Initial consultation and space assessment',
@@ -129,7 +129,7 @@ export const services: Service[] = [
     title: '3D Visualization',
     tagline: 'See your space before it exists',
     description: 'Experience your space before it\'s built with photorealistic 3D renderings and virtual walkthroughs.',
-    icon: 'Cube',
+    icon: 'Box',
     overview: 'Our 3D visualization services bring your design concepts to life with stunning realism. Perfect for presentations, marketing materials, and ensuring everyone is aligned before construction begins.',
     deliverables: [
       'High-quality 3D renderings',
