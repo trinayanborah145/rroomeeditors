@@ -10,14 +10,27 @@ const PortfolioSection = () => {
   const [isMobile, setIsMobile] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   
-  // Check if device is mobile
+  // Check if device is mobile and handle mobile-specific animations
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+      const isMobileView = window.innerWidth < 768;
+      setIsMobile(isMobileView);
     };
+    
     checkIfMobile();
-    window.addEventListener('resize', checkIfMobile);
-    return () => window.removeEventListener('resize', checkIfMobile);
+    
+    // Debounce resize handler
+    let resizeTimer: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(checkIfMobile, 100);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimer);
+    };
   }, []);
   
   const categories = useMemo(() => 
@@ -87,38 +100,79 @@ const PortfolioSection = () => {
         </div>
         
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
           layout
         >
-          {filteredProjects.map((project) => (
+          {filteredProjects.map((project, index) => (
             <motion.div
               key={project.id}
               layout
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className="group relative overflow-hidden rounded-lg cursor-pointer"
+              initial={{ opacity: 0, y: 20, scale: 0.98 }}
+              animate={{ 
+                opacity: 1, 
+                y: 0, 
+                scale: 1,
+                transition: { 
+                  duration: 0.4,
+                  delay: isMobile ? index * 0.05 : 0,
+                  ease: [0.25, 0.1, 0.25, 1]
+                }
+              }}
+              whileHover={!isMobile ? { 
+                y: -5,
+                transition: { duration: 0.2 }
+              } : {}}
+              whileTap={{ 
+                scale: isMobile ? 0.98 : 1,
+                transition: { duration: 0.1 }
+              }}
+              className="group relative overflow-hidden rounded-xl md:rounded-lg cursor-pointer shadow-lg md:shadow-none hover:shadow-xl transition-all duration-300"
               onClick={() => openProject(project.id)}
             >
               <div className="aspect-[4/3] overflow-hidden">
-                <img 
+                <motion.img 
                   src={project.image} 
                   alt={project.title} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover"
+                  initial={{ scale: 1 }}
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-primary-950/70 via-primary-950/20 to-transparent opacity-50 transition-opacity duration-300 group-hover:opacity-70"></div>
-              <div className="absolute bottom-0 left-0 p-6 w-full">
-                <h3 className="text-xl font-serif mb-2 transform transition-transform duration-300 group-hover:translate-y-0">{project.title}</h3>
-                <p className="text-primary-300 text-sm opacity-0 transform translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">{project.category}</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-primary-950/80 via-primary-950/20 to-transparent opacity-70 md:opacity-50 transition-opacity duration-300 group-hover:opacity-80"></div>
+              <div className="absolute bottom-0 left-0 p-4 md:p-6 w-full">
+                <motion.h3 
+                  className="text-lg md:text-xl font-serif font-medium mb-1 md:mb-2"
+                  initial={{ y: 0, opacity: 1 }}
+                  animate={isMobile ? { y: 0, opacity: 1 } : { y: 10, opacity: 1 }}
+                  whileHover={!isMobile ? { y: 0 } : {}}
+                  transition={{ duration: 0.3 }}
+                >
+                  {project.title}
+                </motion.h3>
+                <motion.p 
+                  className="text-primary-200 text-xs md:text-sm font-light"
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={isMobile ? { y: 0, opacity: 1 } : { y: 10, opacity: 0 }}
+                  whileHover={!isMobile ? { y: 0, opacity: 1 } : {}}
+                  transition={{ duration: 0.3, delay: 0.1 }}
+                >
+                  {project.category}
+                </motion.p>
               </div>
               {project.videoUrl && (
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="p-4 bg-accent-600 rounded-full">
-                    <Play className="w-8 h-8" />
+                <motion.div 
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={isMobile ? { opacity: 0.8, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                  whileHover={!isMobile ? { opacity: 1, scale: 1.1 } : {}}
+                  whileTap={{ scale: 0.9 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+                >
+                  <div className="p-3 md:p-4 bg-accent-600/90 hover:bg-accent-500 rounded-full transition-colors">
+                    <Play className="w-6 h-6 md:w-8 md:h-8" />
                   </div>
-                </div>
+                </motion.div>
               )}
             </motion.div>
           ))}
