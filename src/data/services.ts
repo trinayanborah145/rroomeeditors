@@ -1,3 +1,21 @@
+export interface PortfolioItem {
+  image: string;
+  title: string;
+  description: string;
+  alt: string;
+}
+
+export interface Testimonial {
+  quote: string;
+  author: string;
+  location: string;
+}
+
+export interface FAQ {
+  question: string;
+  answer: string;
+}
+
 export interface Service {
   id: string;
   title: string;
@@ -8,119 +26,112 @@ export interface Service {
   deliverables: string[];
   timeline: string;
   tools?: string[];
-  portfolio?: Array<{
-    image: string;
-    title: string;
-    description: string;
-  }>;
+  portfolio?: PortfolioItem[];
   whyChooseUs: string;
-  testimonial?: {
-    quote: string;
-    author: string;
-  };
-  faqs?: Array<{
-    question: string;
-    answer: string;
-  }>;
+  seoDescription: string;
+  seoKeywords: string;
+  testimonial?: Testimonial;
+  faqs?: FAQ[];
 }
 
 export const services: Service[] = [
   {
-    id: 'residential-design',
-    title: 'Residential Design',
-    tagline: 'Turning your house into a dream home',
-    description: 'Transform your living space into a personalized sanctuary that reflects your lifestyle and aesthetic preferences.',
-    icon: 'Wrench',
-    overview: 'Our residential design service creates beautiful, functional spaces tailored to your unique needs. We work closely with you to understand your vision, lifestyle, and preferences, then bring that vision to life with thoughtful design solutions that maximize both form and function.',
+    id: 'false-ceiling',
+    title: 'False Ceiling Design',
+    tagline: 'Elevate your space with stunning false ceiling designs in Nalbari',
+    description: 'Transform your rooms with elegant false ceiling designs that enhance lighting, hide wiring, and add a touch of sophistication to your interiors.',
+    seoDescription: 'Expert false ceiling design services in Nalbari. We offer modern, elegant false ceiling solutions for homes and offices with professional installation.',
+    seoKeywords: 'false ceiling design Nalbari, POP ceiling Joymangla, gypsum ceiling Assam, false ceiling contractor, modern false ceiling designs, living room false ceiling, bedroom false ceiling, office false ceiling',
+    icon: 'Layers',
+    overview: 'Our false ceiling designs in Nalbari combine aesthetics with functionality, offering solutions that enhance your space while hiding unsightly wiring and improving acoustics. We work with various materials including gypsum, POP, and wood to create custom designs that match your style and budget.',
     deliverables: [
-      'Initial consultation and space assessment',
-      'Custom 2D and 3D design concepts',
-      'Material and finish selection',
-      'Furniture and decor recommendations',
-      'Lighting design plan',
-      'Project management and vendor coordination'
+      'Free consultation and site visit in Nalbari',
+      'Custom 2D and 3D design visualization',
+      'Material selection (Gypsum, POP, Wood, etc.)',
+      'Professional installation by experienced technicians',
+      'Lighting integration and electrical planning',
+      'Complete project management'
     ],
-    timeline: '4-12 weeks depending on project scope',
-    tools: ['AutoCAD', 'SketchUp', '3ds Max', 'Photoshop'],
+    timeline: '7-15 days depending on area and design complexity',
+    tools: ['AutoCAD', '3D Visualization', 'Laser Level'],
     portfolio: [
       {
-        image: '/images/residential-1.jpg',
-        title: 'Modern Living Room',
-        description: 'Contemporary design with warm wood accents and natural light'
+        image: '/images/false-ceiling-1.jpg',
+        title: 'Modern Living Room False Ceiling',
+        description: 'Contemporary design with cove lighting',
+        alt: 'Modern false ceiling design for living room in Nalbari with cove lighting'
       },
       {
-        image: '/images/residential-2.jpg',
-        title: 'Luxury Bedroom Suite',
-        description: 'Elegant master bedroom with custom walk-in closet'
-      },
-      {
-        image: '/images/residential-3.jpg',
-        title: 'Open Concept Kitchen',
-        description: 'Sleek kitchen with waterfall island and smart storage'
+        image: '/images/false-ceiling-2.jpg',
+        title: 'Bedroom False Ceiling with Wooden Panels',
+        description: 'Warm and cozy bedroom ceiling design',
+        alt: 'Wooden false ceiling design for bedroom in Assam'
       }
     ],
-    whyChooseUs: 'With over 10 years of experience in residential design, we understand how to create spaces that are not only beautiful but also functional for everyday living. Our attention to detail and personalized approach ensures your home reflects your unique style and needs.',
+    whyChooseUs: 'With over 5 years of experience in false ceiling installation across Nalbari, we bring precision and creativity to every project. Our team uses only high-quality materials and follows strict safety standards to ensure durable and beautiful results.',
     testimonial: {
-      quote: 'Working with Room Editors transformed our apartment into a home we absolutely love. Their attention to detail and understanding of our lifestyle made all the difference.',
-      author: 'Sarah K., Homeowner'
+      quote: 'The false ceiling in our living room has completely transformed the space. The team was professional and completed the work on time.',
+      author: 'Rahul Sharma',
+      location: 'Nalbari, Assam'
     },
     faqs: [
       {
-        question: 'How much does residential design cost?',
-        answer: 'Our residential design services typically range from $2,000 to $15,000 depending on the scope of work, size of the space, and level of detail required.'
+        question: 'What is the best material for false ceiling in Assam\'s climate?',
+        answer: 'Gypsum is ideal for Assam\'s humid climate as it is moisture-resistant and doesn\'t sag or warp easily. We also offer POP and wooden options depending on your requirements.'
       },
       {
-        question: 'Do you work with existing furniture?',
-        answer: 'Absolutely! We can incorporate your existing pieces into the new design while suggesting strategic updates to create a cohesive look.'
-      },
-      {
-        question: 'What is the typical timeline for a residential project?',
-        answer: 'Most residential projects take between 4-12 weeks from initial consultation to final installation, depending on the scope and complexity.'
+        question: 'How long does a false ceiling installation take?',
+        answer: 'Most residential projects take 7-15 days, depending on the area and design complexity. We ensure minimal disruption to your daily routine during installation.'
       }
     ]
   },
   {
-    id: 'commercial-design',
-    title: 'Commercial Design',
-    tagline: 'Creating workspaces that inspire and impress',
-    description: 'Elevate your business environment with thoughtful design that enhances productivity and embodies your brand values.',
-    icon: 'Building',
-    overview: 'Our commercial design services help businesses create functional, attractive spaces that reflect their brand and support their operations. From office spaces to retail environments, we design with both aesthetics and functionality in mind.',
+    id: 'modular-kitchen',
+    title: 'Modular Kitchen',
+    tagline: 'Design your dream kitchen with our modular solutions in Assam',
+    description: 'Create a functional and stylish kitchen with our custom modular kitchen designs that maximize space and efficiency.',
+    seoDescription: 'Expert modular kitchen designers in Nalbari offering custom, space-efficient kitchen solutions with premium finishes and smart storage solutions.',
+    seoKeywords: 'modular kitchen Nalbari, kitchen design Assam, modular kitchen cost, modern kitchen design, small modular kitchen, kitchen interior designer, modular kitchen Joymangla, kitchen cabinet design',
+    icon: 'Utensils',
+    overview: 'Our modular kitchen designs in Nalbari blend aesthetics with functionality, offering smart storage solutions and premium finishes. We create kitchens that are not just beautiful but also highly efficient for your cooking needs.',
     deliverables: [
-      'Space planning and layout optimization',
-      'Brand-consistent design concepts',
-      'Furniture and finish specifications',
-      'Lighting and acoustic solutions',
-      'Wayfinding and signage design',
-      'Project management and installation oversight'
+      'Custom kitchen layout planning',
+      '3D visualization of your dream kitchen',
+      'Premium quality modular cabinets',
+      'Countertop selection (Granite, Quartz, etc.)',
+      'Appliance integration',
+      'Lighting and electrical planning'
     ],
-    timeline: '8-16 weeks depending on project scope',
-    tools: ['AutoCAD', 'Revit', 'Enscape', 'Photoshop'],
+    timeline: '4-6 weeks from design to installation',
+    tools: ['AutoCAD', '3D Visualization', 'Material Samples'],
     portfolio: [
       {
-        image: '/images/commercial-1.jpg',
-        title: 'Modern Office Space',
-        description: 'Open concept workspace with collaborative areas and private offices'
+        image: '/images/kitchen-1.jpg',
+        title: 'Modern L-shaped Modular Kitchen',
+        description: 'Sleek handle-less design with quartz countertop',
+        alt: 'Modern L-shaped modular kitchen design in Nalbari'
       },
       {
-        image: '/images/commercial-2.jpg',
-        title: 'Retail Store Design',
-        description: 'Boutique retail space with custom displays and lighting'
+        image: '/images/kitchen-2.jpg',
+        title: 'U-shaped Kitchen with Island',
+        description: 'Spacious design with breakfast counter',
+        alt: 'U-shaped modular kitchen with island in Assam'
       }
     ],
-    whyChooseUs: 'With our extensive experience in commercial design, we understand how to create spaces that not only look impressive but also enhance productivity and reflect your brand identity. We stay current with workplace trends and ergonomic best practices to deliver designs that work as hard as your team does.',
+    whyChooseUs: 'As leading kitchen designers in Assam, we focus on creating ergonomic and beautiful spaces that make cooking a pleasure. Our kitchens are built to last with high-quality materials and expert craftsmanship.',
     testimonial: {
-      quote: 'The team transformed our office into a space that perfectly represents our brand and has significantly improved team collaboration and morale.',
-      author: 'Michael T., CEO of TechCorp'
+      quote: 'Our new modular kitchen has transformed our cooking experience. The team at Room Editors understood our needs perfectly and delivered beyond our expectations.',
+      author: 'Priya Das',
+      location: 'Nalbari, Assam'
     },
     faqs: [
       {
-        question: 'What types of commercial spaces do you design?',
-        answer: 'We design a variety of commercial spaces including offices, retail stores, restaurants, healthcare facilities, and more.'
+        question: 'What is the average cost of a modular kitchen in Nalbari?',
+        answer: 'The cost varies based on size, materials, and features. Our modular kitchens typically start from ₹1.5 lakhs for a basic setup and can go up based on your requirements and choice of materials.'
       },
       {
-        question: 'How do you incorporate our brand into the design?',
-        answer: 'We work closely with your marketing team to understand your brand identity, values, and culture, then translate those elements into the physical space through color, materials, and layout.'
+        question: 'How long does it take to install a modular kitchen?',
+        answer: 'The installation typically takes 3-4 weeks after finalizing the design. This includes manufacturing, delivery, and installation. We ensure minimal disruption to your daily routine during the process.'
       }
     ]
   },
@@ -129,6 +140,8 @@ export const services: Service[] = [
     title: '3D Visualization',
     tagline: 'See your space before it exists',
     description: 'Experience your space before it\'s built with photorealistic 3D renderings and virtual walkthroughs.',
+    seoDescription: 'Professional 3D visualization services in Nalbari, Assam. We create photorealistic renderings and virtual walkthroughs for residential and commercial spaces.',
+    seoKeywords: '3D visualization Nalbari, 3D rendering Assam, architectural visualization, interior design rendering, 3D walkthrough, virtual tour, 3D floor plan',
     icon: 'Box',
     overview: 'Our 3D visualization services bring your design concepts to life with stunning realism. Perfect for presentations, marketing materials, and ensuring everyone is aligned before construction begins.',
     deliverables: [
@@ -144,18 +157,21 @@ export const services: Service[] = [
       {
         image: '/images/3d-1.jpg',
         title: 'Residential Living Room',
-        description: 'Photorealistic rendering of a modern living space'
+        description: 'Photorealistic rendering of a modern living space',
+        alt: '3D visualization of a modern living room in Nalbari'
       },
       {
         image: '/images/3d-2.jpg',
         title: 'Commercial Lobby',
-        description: '3D visualization of a corporate lobby with natural lighting'
+        description: '3D visualization of a corporate lobby with natural lighting',
+        alt: '3D rendering of a commercial lobby in Assam'
       }
     ],
     whyChooseUs: 'Our 3D visualization team combines technical expertise with an artist\'s eye for detail, creating renderings that are not just accurate but truly breathtaking. We use the latest technology to help you visualize every aspect of your space before any physical work begins.',
     testimonial: {
       quote: 'The 3D visualizations helped us make critical design decisions before construction, saving us time and money on changes.',
-      author: 'Lisa M., Project Manager'
+      author: 'Lisa M. Das',
+      location: 'Nalbari, Assam'
     },
     faqs: [
       {
@@ -173,6 +189,8 @@ export const services: Service[] = [
     title: 'Custom Furniture',
     tagline: 'Bespoke pieces for unique spaces',
     description: 'Commission bespoke furniture pieces designed exclusively for your space.',
+    seoDescription: 'Custom furniture design and manufacturing in Nalbari, Assam. Handcrafted, bespoke furniture tailored to your space and style preferences.',
+    seoKeywords: 'custom furniture Nalbari, bespoke furniture Assam, handcrafted furniture, custom woodwork, made-to-order furniture, custom cabinetry',
     icon: 'Sofa',
     overview: 'Our custom furniture service creates one-of-a-kind pieces that perfectly fit your space and style. From concept to creation, we handle every detail to bring your vision to life.',
     deliverables: [
@@ -188,18 +206,21 @@ export const services: Service[] = [
       {
         image: '/images/furniture-1.jpg',
         title: 'Custom Dining Table',
-        description: 'Handcrafted solid wood dining table with metal base'
+        description: 'Handcrafted solid wood dining table with metal base',
+        alt: 'Custom solid wood dining table with metal base in Nalbari'
       },
       {
         image: '/images/furniture-2.jpg',
         title: 'Built-in Bookshelves',
-        description: 'Floor-to-ceiling bookshelves with integrated lighting'
+        description: 'Floor-to-ceiling bookshelves with integrated lighting',
+        alt: 'Custom built-in bookshelves with lighting in Assam'
       }
     ],
     whyChooseUs: 'Our custom furniture is crafted with precision and attention to detail, using only the finest materials and construction techniques. We work with skilled artisans who take pride in creating heirloom-quality pieces that will last for generations.',
     testimonial: {
       quote: 'The custom dining table they created is the centerpiece of our home. The craftsmanship is exceptional!',
-      author: 'David R., Homeowner'
+      author: 'David Roy',
+      location: 'Nalbari, Assam'
     },
     faqs: [
       {
@@ -217,6 +238,8 @@ export const services: Service[] = [
     title: 'TV Unit Design',
     tagline: 'Entertainment centers reimagined',
     description: 'Elevate your entertainment space with custom TV unit designs that combine style and functionality.',
+    seoDescription: 'Custom TV unit design and installation in Nalbari. We create stylish and functional entertainment centers with smart storage solutions.',
+    seoKeywords: 'TV unit design Nalbari, entertainment unit Assam, custom TV stand, wall-mounted TV unit, modern TV cabinet, living room furniture',
     icon: 'Tv',
     overview: 'Our custom TV unit designs transform your entertainment area into a stylish focal point while providing practical storage solutions and hiding unsightly cables.',
     deliverables: [
@@ -232,18 +255,21 @@ export const services: Service[] = [
       {
         image: '/images/tvunit-1.jpg',
         title: 'Modern Media Wall',
-        description: 'Floating entertainment unit with LED lighting and hidden storage'
+        description: 'Floating entertainment unit with LED lighting and hidden storage',
+        alt: 'Modern TV unit design with LED lighting in Nalbari'
       },
       {
         image: '/images/tvunit-2.jpg',
         title: 'Rustic TV Console',
-        description: 'Reclaimed wood TV unit with industrial metal accents'
+        description: 'Reclaimed wood TV unit with industrial metal accents',
+        alt: 'Rustic TV unit design with reclaimed wood in Assam'
       }
     ],
     whyChooseUs: 'We understand that your entertainment center is more than just a place for your TV - it\'s the focal point of your living space. Our designs combine cutting-edge technology integration with timeless aesthetics to create a piece that enhances both your viewing experience and your room\'s decor.',
     testimonial: {
       quote: 'The custom TV unit they designed perfectly fits our space and hides all the electronics. It looks like a piece of art!',
-      author: 'Jennifer L., Client'
+      author: 'Jennifer Lahon',
+      location: 'Guwahati, Assam'
     },
     faqs: [
       {
@@ -261,6 +287,8 @@ export const services: Service[] = [
     title: 'Semi Modular Kitchen',
     tagline: 'The perfect balance of style and value',
     description: 'Get the perfect balance of customization and affordability with our semi-modular kitchen solutions.',
+    seoDescription: 'Semi-modular kitchen solutions in Nalbari offering the perfect balance of affordability and customization for your dream kitchen.',
+    seoKeywords: 'semi-modular kitchen Nalbari, affordable kitchen design, kitchen renovation Assam, kitchen cabinet design, budget kitchen makeover',
     icon: 'Utensils',
     overview: 'Our semi-modular kitchen service offers the perfect combination of customization and cost-effectiveness, using pre-fabricated cabinets with custom modifications to suit your space and style.',
     deliverables: [
@@ -276,18 +304,21 @@ export const services: Service[] = [
       {
         image: '/images/kitchen-1.jpg',
         title: 'Modern L-Shaped Kitchen',
-        description: 'Sleek white cabinets with quartz countertops and stainless steel appliances'
+        description: 'Sleek white cabinets with quartz countertops and stainless steel appliances',
+        alt: 'Modern L-shaped semi-modular kitchen in Nalbari'
       },
       {
         image: '/images/kitchen-2.jpg',
         title: 'U-Shaped Kitchen',
-        description: 'Warm wood cabinets with stone backsplash and pendant lighting'
+        description: 'Warm wood cabinets with stone backsplash and pendant lighting',
+        alt: 'U-shaped semi-modular kitchen in Assam'
       }
     ],
     whyChooseUs: 'Our semi-modular kitchens offer the perfect blend of affordability and customization. We work with high-quality pre-fabricated cabinets that we can modify to fit your exact space and style requirements, giving you a custom look without the custom price tag.',
     testimonial: {
       quote: 'Our semi-modular kitchen looks like it was custom-built for our home. The team was able to modify stock cabinets to fit our unique space perfectly.',
-      author: 'Robert & Maria, Homeowners'
+      author: 'Robert & Maria Bora',
+      location: 'Nalbari, Assam'
     },
     faqs: [
       {
@@ -305,6 +336,8 @@ export const services: Service[] = [
     title: 'Full Modular Kitchen',
     tagline: 'Luxury and functionality, perfectly crafted',
     description: 'Experience the ultimate in kitchen design with our fully modular solutions.',
+    seoDescription: 'Premium full modular kitchen design and installation in Nalbari. Custom-built kitchens with high-end finishes and smart storage solutions.',
+    seoKeywords: 'modular kitchen Nalbari, luxury kitchen design, custom kitchen cabinets, modern kitchen Assam, kitchen renovation, smart kitchen storage',
     icon: 'ChefHat',
     overview: 'Our full modular kitchen service delivers a completely customized cooking space where every element is designed specifically for your needs, preferences, and cooking style.',
     deliverables: [
@@ -321,18 +354,21 @@ export const services: Service[] = [
       {
         image: '/images/modular-1.jpg',
         title: 'Luxury Chef\'s Kitchen',
-        description: 'Gourmet kitchen with professional-grade appliances and custom cabinetry'
+        description: 'Gourmet kitchen with professional-grade appliances and custom cabinetry',
+        alt: 'Luxury modular kitchen with high-end appliances in Nalbari'
       },
       {
         image: '/images/modular-2.jpg',
         title: 'Contemporary Open Kitchen',
-        description: 'Sleek handleless cabinets with integrated smart storage solutions'
+        description: 'Sleek handleless cabinets with integrated smart storage solutions',
+        alt: 'Contemporary open modular kitchen in Assam'
       }
     ],
     whyChooseUs: 'Our full modular kitchens are the epitome of luxury and functionality. Every inch is designed with your cooking style and storage needs in mind, using premium materials and hardware that stand the test of time. We combine innovative design with practical solutions to create a kitchen that\'s as beautiful as it is functional.',
     testimonial: {
       quote: 'Our new modular kitchen has transformed how we cook and entertain. The custom storage solutions have maximized every inch of space.',
-      author: 'The Patel Family'
+      author: 'The Patel Family',
+      location: 'Guwahati, Assam'
     },
     faqs: [
       {
@@ -350,6 +386,8 @@ export const services: Service[] = [
     title: 'Renovation Consultation',
     tagline: 'Expert guidance for your transformation',
     description: 'Expert guidance for your renovation projects from concept to completion.',
+    seoDescription: 'Professional renovation consultation in Nalbari. Get expert advice for your home renovation projects with personalized solutions.',
+    seoKeywords: 'renovation consultation Nalbari, home renovation expert, interior design consultation Assam, home makeover advice, renovation planning',
     icon: 'Hammer',
     overview: 'Our renovation consultation service provides professional guidance to help you plan and execute your renovation project successfully, whether you\'re updating a single room or your entire home.',
     deliverables: [
@@ -366,18 +404,21 @@ export const services: Service[] = [
       {
         image: '/images/renovation-1.jpg',
         title: 'Before & After Living Room',
-        description: 'Complete transformation of a dated living space into a modern family room'
+        description: 'Complete transformation of a dated living space into a modern family room',
+        alt: 'Living room renovation before and after in Nalbari'
       },
       {
         image: '/images/renovation-2.jpg',
         title: 'Bathroom Remodel',
-        description: 'Spa-like bathroom renovation with custom tile work and fixtures'
+        description: 'Spa-like bathroom renovation with custom tile work and fixtures',
+        alt: 'Bathroom renovation with modern fixtures in Assam'
       }
     ],
     whyChooseUs: 'With years of experience in renovation projects of all sizes, we can help you navigate the complexities of home improvement, avoid common pitfalls, and make informed decisions that align with your vision and budget.',
     testimonial: {
       quote: 'The renovation consultation helped us prioritize our project and avoid costly mistakes. Their advice was invaluable!',
-      author: 'Thomas & Emily, Homeowners'
+      author: 'Thomas & Emily Dutta',
+      location: 'Nalbari, Assam'
     },
     faqs: [
       {
@@ -395,6 +436,8 @@ export const services: Service[] = [
     title: 'Material Selection',
     tagline: 'Curated finishes for your perfect space',
     description: 'Expert guidance in selecting the perfect materials and finishes for your project.',
+    seoDescription: 'Professional material selection service in Nalbari. We help you choose the perfect finishes, fixtures, and materials for your interior design project.',
+    seoKeywords: 'material selection Nalbari, interior finishes, flooring options Assam, wall treatments, countertop materials, sustainable building materials',
     icon: 'Palette',
     overview: 'Our material selection service helps you navigate the overwhelming world of finishes, fixtures, and materials to create a cohesive and beautiful space that reflects your style and meets your practical needs.',
     deliverables: [
@@ -410,18 +453,21 @@ export const services: Service[] = [
       {
         image: '/images/materials-1.jpg',
         title: 'Luxury Bathroom Finishes',
-        description: 'Premium marble and brass fixtures for a spa-like bathroom'
+        description: 'Premium marble and brass fixtures for a spa-like bathroom',
+        alt: 'Luxury bathroom finishes with marble and brass in Nalbari'
       },
       {
         image: '/images/materials-2.jpg',
         title: 'Sustainable Flooring Options',
-        description: 'Eco-friendly flooring materials with high durability and style'
+        description: 'Eco-friendly flooring materials with high durability and style',
+        alt: 'Sustainable flooring options available in Assam'
       }
     ],
     whyChooseUs: 'We have established relationships with top suppliers and manufacturers, giving you access to a wide range of high-quality materials. Our expertise in material properties, durability, and design aesthetics ensures that your selections will not only look beautiful but also perform well in your space.',
     testimonial: {
       quote: 'The material selection service was a game-changer for our renovation. They introduced us to options we never would have found on our own.',
-      author: 'Alex & Jordan, Homeowners'
+      author: 'Alex & Jordan Baruah',
+      location: 'Guwahati, Assam'
     },
     faqs: [
       {

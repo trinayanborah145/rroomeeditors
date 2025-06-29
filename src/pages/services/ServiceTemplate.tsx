@@ -5,6 +5,8 @@ import { services } from '../../data/services';
 import type { Service } from '../../data/services';
 import { Button } from '../../components/ui/button';
 import { ArrowLeft, Phone, Mail } from 'lucide-react';
+import SEO from '../../components/SEO';
+import { useStructuredData } from '../../hooks/useStructuredData';
 
 const ServiceTemplate = () => {
   const { serviceId } = useParams<{ serviceId: string }>();
@@ -16,10 +18,24 @@ const ServiceTemplate = () => {
   }, [serviceId]);
   
   const service = services.find((s: Service) => s.id === serviceId);
+  
+  // Set up structured data for the service
+  useStructuredData('service');
+  
+  // Generate SEO metadata for the service
+  const seoTitle = service ? `${service.title} | Room Editors - ${service.tagline}` : 'Service | Room Editors';
+  const seoDescription = service ? service.seoDescription : 'Professional interior design services in Nalbari, Assam';
+  const seoKeywords = service ? service.seoKeywords : 'interior design, home decor, Nalbari, Assam';
+  const serviceImage = service?.portfolio?.[0]?.image || '/og-image.jpg';
 
   if (!service) {
     return (
       <div className="min-h-screen bg-primary-900 text-primary-100 flex items-center justify-center">
+        <SEO 
+          title="Service Not Found | Room Editors" 
+          description="The requested service could not be found. Please browse our available services."
+          type="website"
+        />
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">Service Not Found</h1>
           <Button onClick={() => navigate('/services')} className="mt-4">
@@ -32,6 +48,13 @@ const ServiceTemplate = () => {
 
   return (
     <div className="min-h-screen bg-primary-900 text-primary-100">
+      <SEO 
+        title={seoTitle}
+        description={seoDescription}
+        keywords={seoKeywords}
+        type="service"
+        image={serviceImage}
+      />
       {/* Back Button */}
       <div className="container mx-auto px-4 py-8">
         <Button 

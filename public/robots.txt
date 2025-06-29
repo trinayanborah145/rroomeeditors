@@ -1,0 +1,29 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://roomeditors.netlify.app/sitemap.xml
+
+# Crawl-delay: 10
+# 10 second delay between requests to avoid server overload
+
+# Disallow admin and internal pages
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+Disallow: /*?*
+Disallow: /*&*
+
+# Allow all other pages
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.webp$
+
+# Host
+Host: https://roomeditors.netlify.app

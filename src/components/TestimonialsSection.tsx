@@ -111,53 +111,119 @@ const TestimonialsSection = () => {
     };
   }, []);
 
-  // Set up auto-scrolling animation with optimized performance
+  // Set up auto-scrolling animation with CSS animations
   useEffect(() => {
     if (!containerRef.current || !contentRef.current) return;
-
+    
     const container = containerRef.current;
     const content = contentRef.current;
-    let animationFrameId: number;
-    let lastTime = 0;
-    const frameDuration = 1000 / 60; // 60fps
     
-    // Start from the middle of the duplicated content
-    if (container.scrollLeft === 0) {
-      container.scrollLeft = content.scrollWidth / 2;
-    }
+    // Calculate total width of all testimonials
+    const itemWidth = 380; // Width of each testimonial card
+    const gap = 32; // Gap between testimonials
+    const totalWidth = (itemWidth + gap) * testimonials.length;
     
-    const animate = (timestamp: number) => {
-      if (!container || !content) return;
+    // Set initial position
+    container.scrollLeft = 0;
+    
+    // Create keyframes for infinite scroll
+    const style = document.createElement('style');
+    style.id = 'testimonial-scroll-animation';
+    style.textContent = `
+      @keyframes scrollTestimonials {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(calc(-${totalWidth}px - ${gap}px)); }
+      }
       
-      // Calculate time delta for smooth animation
-      const deltaTime = timestamp - lastTime;
-      lastTime = timestamp;
+      .testimonial-track {
+        animation: scrollTestimonials ${testimonials.length * 3}s linear infinite;
+        display: flex;
+        width: max-content;
+      }
       
-      // Only update if enough time has passed (for 60fps)
-      if (deltaTime >= frameDuration) {
-        container.scrollLeft -= (speed * (deltaTime / 1000)); // Move left to right
-        
-        // Reset position when reaching the start of the loop
-        if (container.scrollLeft <= 0) {
-          container.scrollLeft = content.scrollWidth / 2 - container.offsetWidth;
+      .testimonial-track:hover {
+        animation-play-state: paused;
+      }
+      
+      @media (prefers-reduced-motion: reduce) {
+        .testimonial-track {
+          animation: none;
         }
       }
-      
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    // Start animation
-    animationFrameId = requestAnimationFrame(animate);
+    `;
     
-    // Clean up
-    return () => {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
+    document.head.appendChild(style);
+    
+    // Handle manual scrolling for touch devices
+    let isDown = false;
+    let startX: number;
+    let scrollLeft: number;
+    
+    const handleMouseDown = (e: MouseEvent) => {
+      isDown = true;
+      startX = e.pageX - container.offsetLeft;
+      scrollLeft = container.scrollLeft;
+      container.style.cursor = 'grabbing';
+      container.style.scrollBehavior = 'auto';
     };
-  }, [speed]); // Re-run effect when speed changes
+    
+    const handleMouseLeave = () => {
+      isDown = false;
+      container.style.cursor = 'grab';
+    };
+    
+    const handleMouseUp = () => {
+      isDown = false;
+      container.style.cursor = 'grab';
+    };
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - container.offsetLeft;
+      const walk = (x - startX) * 2; // Scroll faster
+      container.scrollLeft = scrollLeft - walk;
+    };
+    
+    // Add event listeners for manual scrolling
+    container.addEventListener('mousedown', handleMouseDown);
+    container.addEventListener('mouseleave', handleMouseLeave);
+    container.addEventListener('mouseup', handleMouseUp);
+    container.addEventListener('mousemove', handleMouseMove);
+    
+    // Handle touch events
+    const handleTouchStart = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      startX = touch.pageX - container.offsetLeft;
+      scrollLeft = container.scrollLeft;
+    };
+    
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!e.touches.length) return;
+      const touch = e.touches[0];
+      const x = touch.pageX - container.offsetLeft;
+      const walk = (x - startX) * 2;
+      container.scrollLeft = scrollLeft - walk;
+      e.preventDefault();
+    };
+    
+    container.addEventListener('touchstart', handleTouchStart, { passive: false });
+    container.addEventListener('touchmove', handleTouchMove, { passive: false });
+    
+    return () => {
+      // Clean up
+      document.head.removeChild(style);
+      container.removeEventListener('mousedown', handleMouseDown);
+      container.removeEventListener('mouseleave', handleMouseLeave);
+      container.removeEventListener('mouseup', handleMouseUp);
+      container.removeEventListener('mousemove', handleMouseMove);
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, [testimonials.length]);
   
-  // Duplicate testimonials for seamless looping (triple for better looping)
+  // Duplicate testimonials for seamless looping
+  // We duplicate the testimonials to ensure smooth continuous scrolling
   const duplicatedTestimonials = [...testimonials, ...testimonials, ...testimonials];
 
   const renderStars = (rating: number) => {
@@ -200,9 +266,9 @@ const TestimonialsSection = () => {
         >
           <div 
             ref={contentRef}
-            className="flex gap-6 md:gap-8 w-max"
+            className="flex gap-6 md:gap-8 w-max testimonial-track"
             style={{
-              // Add some padding to ensure smooth looping
+              // Add padding to ensure smooth looping
               paddingLeft: '100%',
               paddingRight: '100%'
             }}
