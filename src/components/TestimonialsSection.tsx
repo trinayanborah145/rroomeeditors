@@ -122,9 +122,9 @@ const TestimonialsSection = () => {
     const itemWidth = 380; // Width of each testimonial card
     const gap = 32; // Gap between testimonials
     const totalWidth = (itemWidth + gap) * testimonials.length;
+    const animationDuration = testimonials.length * 3; // 3 seconds per testimonial
     
-    // Set initial position
-    container.scrollLeft = 0;
+    // No need to set initial scroll position as we're using transform
     
     // Create keyframes for infinite scroll
     const style = document.createElement('style');
@@ -136,13 +136,10 @@ const TestimonialsSection = () => {
       }
       
       .testimonial-track {
-        animation: scrollTestimonials ${testimonials.length * 3}s linear infinite;
+        animation: scrollTestimonials ${animationDuration}s linear infinite;
         display: flex;
         width: max-content;
-      }
-      
-      .testimonial-track:hover {
-        animation-play-state: paused;
+        will-change: transform;
       }
       
       @media (prefers-reduced-motion: reduce) {
@@ -154,77 +151,18 @@ const TestimonialsSection = () => {
     
     document.head.appendChild(style);
     
-    // Handle manual scrolling for touch devices
-    let isDown = false;
-    let startX: number;
-    let scrollLeft: number;
-    
-    const handleMouseDown = (e: MouseEvent) => {
-      isDown = true;
-      startX = e.pageX - container.offsetLeft;
-      scrollLeft = container.scrollLeft;
-      container.style.cursor = 'grabbing';
-      container.style.scrollBehavior = 'auto';
-    };
-    
-    const handleMouseLeave = () => {
-      isDown = false;
-      container.style.cursor = 'grab';
-    };
-    
-    const handleMouseUp = () => {
-      isDown = false;
-      container.style.cursor = 'grab';
-    };
-    
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - container.offsetLeft;
-      const walk = (x - startX) * 2; // Scroll faster
-      container.scrollLeft = scrollLeft - walk;
-    };
-    
-    // Add event listeners for manual scrolling
-    container.addEventListener('mousedown', handleMouseDown);
-    container.addEventListener('mouseleave', handleMouseLeave);
-    container.addEventListener('mouseup', handleMouseUp);
-    container.addEventListener('mousemove', handleMouseMove);
-    
-    // Handle touch events
-    const handleTouchStart = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      startX = touch.pageX - container.offsetLeft;
-      scrollLeft = container.scrollLeft;
-    };
-    
-    const handleTouchMove = (e: TouchEvent) => {
-      if (!e.touches.length) return;
-      const touch = e.touches[0];
-      const x = touch.pageX - container.offsetLeft;
-      const walk = (x - startX) * 2;
-      container.scrollLeft = scrollLeft - walk;
-      e.preventDefault();
-    };
-    
-    container.addEventListener('touchstart', handleTouchStart, { passive: false });
-    container.addEventListener('touchmove', handleTouchMove, { passive: false });
-    
+    // Clean up
     return () => {
-      // Clean up
-      document.head.removeChild(style);
-      container.removeEventListener('mousedown', handleMouseDown);
-      container.removeEventListener('mouseleave', handleMouseLeave);
-      container.removeEventListener('mouseup', handleMouseUp);
-      container.removeEventListener('mousemove', handleMouseMove);
-      container.removeEventListener('touchstart', handleTouchStart);
-      container.removeEventListener('touchmove', handleTouchMove);
+      const styleElement = document.getElementById('testimonial-scroll-animation');
+      if (styleElement) {
+        styleElement.remove();
+      }
     };
   }, [testimonials.length]);
-  
+
   // Duplicate testimonials for seamless looping
   // We duplicate the testimonials to ensure smooth continuous scrolling
-  const duplicatedTestimonials = [...testimonials, ...testimonials, ...testimonials];
+  const duplicatedTestimonials = [...testimonials, ...testimonials];
 
   const renderStars = (rating: number) => {
     return Array(5).fill(0).map((_, i) => (
@@ -256,11 +194,8 @@ const TestimonialsSection = () => {
         
         <div 
           ref={containerRef}
-          className="overflow-x-auto md:overflow-x-hidden py-8 relative px-4 md:px-0 scrollbar-hide touch-pan-x"
+          className="overflow-hidden py-8 relative px-4 md:px-0"
           style={{
-            WebkitOverflowScrolling: 'touch', // Smooth scrolling on iOS
-            scrollbarWidth: 'none', // Hide scrollbar in Firefox
-            msOverflowStyle: 'none', // Hide scrollbar in IE/Edge
             WebkitTapHighlightColor: 'transparent' // Remove tap highlight on mobile
           }}
         >
@@ -268,9 +203,9 @@ const TestimonialsSection = () => {
             ref={contentRef}
             className="flex gap-6 md:gap-8 w-max testimonial-track"
             style={{
-              // Add padding to ensure smooth looping
-              paddingLeft: '100%',
-              paddingRight: '100%'
+              // No extra padding needed for seamless loop
+              paddingLeft: '0px',
+              paddingRight: '0px'
             }}
           >
             {duplicatedTestimonials.map((testimonial, index) => (
