@@ -111,52 +111,43 @@ const TestimonialsSection = () => {
     };
   }, []);
 
-  // Set up auto-scrolling animation with CSS animations
+  // Set up auto-scrolling animation with requestAnimationFrame for better performance
   useEffect(() => {
-    if (!containerRef.current || !contentRef.current) return;
+    if (!contentRef.current) return;
     
-    const container = containerRef.current;
     const content = contentRef.current;
-    
-    // Calculate total width of all testimonials
-    const itemWidth = 380; // Width of each testimonial card
-    const gap = 32; // Gap between testimonials
+    const itemWidth = 320; // Slightly reduced for mobile
+    const gap = 24; // Reduced gap for mobile
     const totalWidth = (itemWidth + gap) * testimonials.length;
-    const animationDuration = testimonials.length * 3; // 3 seconds per testimonial
+    let animationFrame: number;
+    let startTime: number | null = null;
+    const duration = testimonials.length * 4000; // 4 seconds per testimonial
     
-    // No need to set initial scroll position as we're using transform
-    
-    // Create keyframes for infinite scroll
-    const style = document.createElement('style');
-    style.id = 'testimonial-scroll-animation';
-    style.textContent = `
-      @keyframes scrollTestimonials {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(calc(-${totalWidth}px - ${gap}px)); }
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = (elapsed % duration) / duration;
+      
+      // Calculate the position with easing for smoother start/end
+      const easeInOutCubic = (t: number) => t < 0.5 
+        ? 4 * t * t * t 
+        : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+      
+      const x = -easeInOutCubic(progress) * totalWidth;
+      
+      if (content) {
+        content.style.transform = `translateX(${x}px)`;
       }
       
-      .testimonial-track {
-        animation: scrollTestimonials ${animationDuration}s linear infinite;
-        display: flex;
-        width: max-content;
-        will-change: transform;
-      }
-      
-      @media (prefers-reduced-motion: reduce) {
-        .testimonial-track {
-          animation: none;
-        }
-      }
-    `;
+      animationFrame = requestAnimationFrame(animate);
+    };
     
-    document.head.appendChild(style);
+    // Start animation
+    animationFrame = requestAnimationFrame(animate);
     
     // Clean up
     return () => {
-      const styleElement = document.getElementById('testimonial-scroll-animation');
-      if (styleElement) {
-        styleElement.remove();
-      }
+      cancelAnimationFrame(animationFrame);
     };
   }, [testimonials.length]);
 
@@ -196,22 +187,30 @@ const TestimonialsSection = () => {
           ref={containerRef}
           className="overflow-hidden py-8 relative px-4 md:px-0"
           style={{
-            WebkitTapHighlightColor: 'transparent' // Remove tap highlight on mobile
+            WebkitTapHighlightColor: 'transparent', // Remove tap highlight on mobile
+            overflowX: 'hidden', // Prevent horizontal scrollbar
+            touchAction: 'pan-y' // Better touch handling
           }}
         >
           <div 
             ref={contentRef}
-            className="flex gap-6 md:gap-8 w-max testimonial-track"
+            className="flex gap-4 sm:gap-6 md:gap-8 w-max"
             style={{
-              // No extra padding needed for seamless loop
-              paddingLeft: '0px',
-              paddingRight: '0px'
+              padding: '0 16px', // Add some padding on the sides for mobile
+              willChange: 'transform', // Optimize for animation
+              userSelect: 'none' // Prevent text selection during swipe
             }}
           >
             {duplicatedTestimonials.map((testimonial, index) => (
               <div
                 key={`${testimonial.id}-${index}`}
                 className="w-[280px] h-[350px] sm:w-[320px] sm:h-[400px] md:w-[380px] md:h-auto bg-primary-800/50 rounded-xl p-6 md:p-8 relative flex-shrink-0 flex flex-col overflow-hidden"
+                style={{
+                  WebkitTransform: 'translateZ(0)', // Hardware acceleration
+                  backfaceVisibility: 'hidden', // Improve performance
+                  transform: 'translateZ(0)',
+                  pointerEvents: 'auto' // Ensure all pointer events work normally
+                }}
               >
                 <Quote className="absolute top-8 right-8 w-12 h-12 text-accent-500/20" />
                 

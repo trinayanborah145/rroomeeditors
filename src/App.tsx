@@ -96,10 +96,10 @@ function AppContent() {
               <Route path="/" element={
                 <>
                   <HeroSection />
+                  <AboutSection />
                   <ServicesSection />
                   <StatisticsSection />
                   <PortfolioSection />
-                  <AboutSection />
                   <TestimonialsSection />
                   <ContactSection />
                 </>
