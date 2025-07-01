@@ -79,12 +79,12 @@ const ServicesSection = () => {
   };
   
   return (
-    <section id="services" className="py-24 bg-primary-900 relative overflow-hidden overflow-x-hidden">
+    <section id="services" className="py-24 bg-primary-900 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute -top-48 -right-48 w-96 h-96 rounded-full bg-accent-500/10 blur-3xl"></div>
       <div className="absolute -bottom-48 -left-48 w-96 h-96 rounded-full bg-accent-500/5 blur-3xl"></div>
       
-      <div className="container mx-auto px-4 md:px-6 relative z-10 overflow-x-hidden">
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <motion.div 
           className="text-center mb-16 animate-transform"
           initial={{ opacity: 0, y: 20 }}
@@ -184,26 +184,22 @@ const ServicesSection = () => {
                 ))}
               </ul>
             </div>
-            <div className="mt-4 flex flex-col space-y-2 w-full sm:flex-row sm:space-y-0 sm:gap-4">
-  {/* Debug outline for mobile overflow */}
-  <style>{`@media (max-width: 640px) {.debug-outline * { outline: 1px dashed red !important; }}`}</style>
-  <div className="debug-outline w-full flex flex-col sm:flex-row sm:w-auto gap-2 sm:gap-4">
+            <div className="mt-6 flex w-full flex-col items-center gap-3 sm:flex-row sm:gap-4">
               <Link
                 to={`/services/${activeService.id}`}
-                className="inline-flex items-center justify-center text-sm sm:text-base font-medium text-accent-400 hover:text-accent-300 transition-colors group border border-accent-400/20 hover:border-accent-400/40 rounded-lg px-3 py-2 sm:px-5 sm:py-2 bg-accent-400/5 hover:bg-accent-400/10 w-full sm:w-auto text-center break-words"
+                className="group inline-flex w-full items-center justify-center rounded-lg border border-accent-400/20 bg-accent-400/5 px-5 py-3 text-center text-base font-medium text-accent-400 transition-colors hover:border-accent-400/40 hover:bg-accent-400/10 sm:w-auto"
               >
                 Learn more about {activeService.title}
-                <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <a
                 href="https://wa.me/916901598958?text=I've%20came%20from%20your%20website%20and%20I%20want%20a%20free%20quote"
-                className="inline-flex items-center justify-center text-sm sm:text-base font-medium text-green-600 border border-green-600/20 hover:border-green-600/40 rounded-lg px-3 py-2 sm:px-5 sm:py-2 bg-green-600/5 hover:bg-green-600/10 transition-colors w-full sm:w-auto text-center break-words"
+                className="inline-flex w-full items-center justify-center rounded-lg border border-green-600/20 bg-green-600/5 px-5 py-3 text-center text-base font-medium text-green-600 transition-colors hover:border-green-600/40 hover:bg-green-600/10 sm:w-auto"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 Get a Free Quote on WhatsApp
               </a>
-            </div>
             </div>
           </motion.div>
         </div>
