@@ -184,17 +184,17 @@ const ServicesSection = () => {
                 ))}
               </ul>
             </div>
-            <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:gap-4 w-full">
+            <div className="mt-4 flex flex-col space-y-2 w-full sm:flex-row sm:space-y-0 sm:gap-4">
               <Link
                 to={`/services/${activeService.id}`}
-                className="inline-flex items-center text-base font-medium text-accent-400 hover:text-accent-300 transition-colors group border border-accent-400/20 hover:border-accent-400/40 rounded-lg px-5 py-2 bg-accent-400/5 hover:bg-accent-400/10 w-full sm:w-auto justify-center"
+                className="inline-flex items-center justify-center text-base font-medium text-accent-400 hover:text-accent-300 transition-colors group border border-accent-400/20 hover:border-accent-400/40 rounded-lg px-5 py-2 bg-accent-400/5 hover:bg-accent-400/10 w-full sm:w-auto text-center"
               >
                 Learn more about {activeService.title}
                 <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <a
                 href="https://wa.me/916901598958?text=I've%20came%20from%20your%20website%20and%20I%20want%20a%20free%20quote"
-                className="inline-flex items-center text-base font-medium text-green-600 border border-green-600/20 hover:border-green-600/40 rounded-lg px-5 py-2 bg-green-600/5 hover:bg-green-600/10 transition-colors w-full sm:w-auto justify-center"
+                className="inline-flex items-center justify-center text-base font-medium text-green-600 border border-green-600/20 hover:border-green-600/40 rounded-lg px-5 py-2 bg-green-600/5 hover:bg-green-600/10 transition-colors w-full sm:w-auto text-center"
                 target="_blank"
                 rel="noopener noreferrer"
               >
